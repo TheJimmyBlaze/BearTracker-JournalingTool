@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace BearTracker_JournalingTool
+namespace BearTracker
 {
     public partial class App : Application
     {

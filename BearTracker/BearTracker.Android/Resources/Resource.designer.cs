@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("BearTracker_JournalingTool.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("BearTracker.Droid.Resource", IsApplication=true)]
 
-namespace BearTracker_JournalingTool.Droid
+namespace BearTracker.Droid
 {
 	
 	
@@ -26,7 +26,7 @@ namespace BearTracker_JournalingTool.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::BearTracker_JournalingTool.Droid.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::BearTracker.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation
