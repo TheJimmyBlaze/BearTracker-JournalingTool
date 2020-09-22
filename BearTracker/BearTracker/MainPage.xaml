@@ -6,11 +6,95 @@
              mc:Ignorable="d"
              x:Class="BearTracker.MainPage">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <StackLayout Orientation="Vertical"
+                 BackgroundColor="{StaticResource BackgroundLight}">
 
+        <Frame BackgroundColor="{StaticResource BackgroundDark}"
+               Padding="0, 0, 0, 8">
+            <Frame BackgroundColor="{StaticResource HeaderDark}"
+                   Padding="0, 0, 0, 8">
+                <Frame BackgroundColor="{StaticResource HeaderLight}"
+                       Padding="8">
+                    <Label TextColor="{StaticResource TextLight}"
+                           FontSize="Title">
+                        Test Page
+                    </Label>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <StackLayout Orientation="Horizontal"
+                     Margin="32, 16">
+            <Frame BackgroundColor="{StaticResource NegativeLight}"
+                    WidthRequest="128"
+                    HeightRequest="128"/>
+
+            <Frame BackgroundColor="{StaticResource NegativeDark}"
+                   WidthRequest="8"/>
+
+            <Frame BackgroundColor="{StaticResource ForegroundLight}"
+                   HorizontalOptions="FillAndExpand">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="64"/>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="Label">
+                            <Setter Property="TextColor" Value="{StaticResource TextDark}"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Label Grid.Row="0"
+                           Grid.ColumnSpan="2"
+                           FontSize="Large"
+                           VerticalOptions="End"
+                           Margin="16, 12, 0, 8">
+                        Do the big thing all day bruv!
+                    </Label>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           FontSize="Medium"
+                           Margin="16, 0, 0, 0">
+                        3 / 18 Tasks Completed
+                    </Label>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           FontSize="Medium"
+                           HorizontalOptions="End"
+                           Margin="0, 0, 32, 0">
+                        Due in 39 Days
+                    </Label>
+
+                    <ProgressBar Grid.Row="3"
+                                 Grid.ColumnSpan="2"
+                                 ProgressColor="{StaticResource PositiveLight}"
+                                 Progress="0.4"
+                                 Margin="0, 0, 0, 8"/>
+                </Grid>
+            </Frame>
+        </StackLayout>
+
+        <Frame BackgroundColor="{StaticResource PositiveDark}"
+               Margin="32, 8"
+               Padding="0, 0, 0, 8">
+            <Button BackgroundColor="{StaticResource PositiveLight}"
+                    TextColor="{StaticResource TextLight}"
+                    FontSize="Medium"
+                    Text="Do a Thing!"/>
+        </Frame>
+            
+    </StackLayout>
+    
 </ContentPage>

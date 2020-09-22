@@ -16,6 +16,7 @@ namespace BearTracker.Models
         public DateTime CreationDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         
+        public bool Completed { get; set; }
         public TimeSpan Estimate { get; set; }
 
         public List<Task> Tasks { get; set; }

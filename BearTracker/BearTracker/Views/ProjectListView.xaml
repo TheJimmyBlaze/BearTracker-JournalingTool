@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModelBase="clr-namespace:BearTracker.ViewModels.Base"
+             mc:Ignorable="d"
+             x:Class="BearTracker.Views.ProjectListView"
+             viewModelBase:ViewModelLocator.AutoWireViewModel="true"
+             NavigationPage.HasNavigationBar="False">
+
+    <StackLayout Padding="64"
+                 Spacing="8">
+        <Label>Project Page</Label>
+        <Label Text="{Binding RandomNumber}"/>
+        <Button Text="New Number"
+                Command="{Binding ResetRandomNumberCommand}"/>
+        <Button Text="Next" 
+                Command="{Binding CreateNewProjectCommand}"/>
+    </StackLayout>
+</ContentPage>

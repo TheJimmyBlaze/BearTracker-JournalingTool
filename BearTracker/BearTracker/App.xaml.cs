@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BearTracker.Services;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,12 +11,12 @@ namespace BearTracker
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            DependencyService.Register<NavigationService>();
+            await DependencyService.Get<NavigationService>().InitializeAsync();
         }
 
         protected override void OnSleep()

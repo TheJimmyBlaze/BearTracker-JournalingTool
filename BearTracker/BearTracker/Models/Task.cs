@@ -10,6 +10,7 @@ namespace BearTracker.Models
         public string Name { get; set; }
         public string Notes { get; set; }
 
+        public bool Completed { get; set; }
         public Priority Priority { get; set; }
 
         public List<TimeEntry> TimeEntries { get; set; }
