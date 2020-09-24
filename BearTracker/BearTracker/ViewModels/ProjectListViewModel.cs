@@ -12,29 +12,22 @@ namespace BearTracker.ViewModels
     {
         private readonly INavigationService navService = DependencyService.Get<INavigationService>();
 
-        private int randomNumber;
-        public int RandomNumber
+        private string searchText;
+        public string SearchText
         {
-            get
+            get { return searchText; }
+            set
             {
-                if (randomNumber == 0)
-                    randomNumber = new Random().Next(1, 100);
-                return randomNumber;
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
             }
         }
 
-        public ICommand CreateNewProjectCommand => new Command(CreateNewProject);
-        public ICommand ResetRandomNumberCommand => new Command(ResetRandomNumber);
+        public ICommand ClearSearchTextCommand => new Command(ClearSearchText);
 
-        private async void CreateNewProject()
+        private void ClearSearchText()
         {
-            await navService.NavigateToAsync<ProjectCreationViewModel>();
-        }
-
-        private void ResetRandomNumber()
-        {
-            randomNumber = 0;
-            OnPropertyChanged(nameof(RandomNumber));
+            SearchText = string.Empty;
         }
     }
 }

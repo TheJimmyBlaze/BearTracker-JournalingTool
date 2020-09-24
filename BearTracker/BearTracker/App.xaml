@@ -2,41 +2,43 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="clr-namespace:BearTracker.Converters" xmlns:triggers="clr-namespace:BearTracker.Triggers"
              mc:Ignorable="d"
              x:Class="BearTracker.App">
     <Application.Resources>
         
-        <!-- Background of pages, elements stack ontop of this colour. -->
+        <!-- Background of pages, elements stack ontop of this colour -->
         <Color x:Key="BackgroundLight">#EAD4AA</Color>
         <Color x:Key="BackgroundDark">#E8B796</Color>
-        <!-- Elements on which text, and things will be placed. Elements of this colour are separated by negative space. -->
+        <!-- Elements on which text, and things will be placed. Elements of this colour are separated by negative space -->
         <Color x:Key="ForegroundLight">#FFFFFF</Color>
         <Color x:Key="ForegroundDark">#C0CBDC</Color>
-        <!-- Headers and titles, goes ontop of Background. -->
+        <!-- Headers and titles, goes ontop of Background -->
         <Color x:Key="HeaderLight">#743F39</Color>
         <Color x:Key="HeaderDark">#3F2832</Color>
         
-        <!-- Highlight describes something important, usually a button. -->
-        <Color x:Key="HighlightLight">#0095E9</Color>
-        <Color x:Key="HighlightDark">#124E89</Color>
+        <!-- Highlight describes something important, usually a button -->
+        <Color x:Key="HighlightLight">#FEAE34</Color>
+        <Color x:Key="HighlightDark">#F77622</Color>
             
-        <!-- Buttons that cancel or delete, things that indicate something bad or dangerous. -->
+        <!-- Buttons that cancel or delete, things that indicate something bad or dangerous -->
         <Color x:Key="NegativeLight">#E43B44</Color>
         <Color x:Key="NegativeDark">#9E2835</Color>
-        <!-- Buttons that save or accept, good things we want to do :). -->
+        <!-- Buttons that save or accept, good things we want to do :) -->
         <Color x:Key="PositiveLight">#63C74D</Color>
         <Color x:Key="PositiveDark">#3E8948</Color>
         <!-- Disabled things, you can't interact with these now, but maybe soon? -->
         <Color x:Key="DisabledLight">#8B9BB4</Color>
         <Color x:Key="DisabledDark">#5A6988</Color>
             
-        <!-- Text colours, one goes on dark colours, the other on light. -->
+        <!-- Text colours, one goes on dark colours, the other on light -->
         <Color x:Key="TextLight">#FFFFFF</Color>
         <Color x:Key="TextDark">#181425</Color>
-            
-            
-        <!-- Default Overrides. -->
+        
+        <!-- Converters -->
+        <converters:TrueWhenEmptyConverter x:Key="TrueWhenEmpty"/>
+
+        <!-- Default Overrides -->
         <Style TargetType="Frame">
             <Setter Property="CornerRadius" Value="0"/>
             <Setter Property="Padding" Value="0"/>
@@ -48,6 +50,11 @@
 
         <Style TargetType="StackLayout">
             <Setter Property="Spacing" Value="0"/>
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter Property="ColumnSpacing" Value="0"/>
+            <Setter Property="RowSpacing" Value="0"/>
         </Style>
 
         <Style TargetType="Button">

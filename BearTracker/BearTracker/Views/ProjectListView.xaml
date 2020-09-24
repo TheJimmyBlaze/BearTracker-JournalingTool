@@ -3,19 +3,159 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModelBase="clr-namespace:BearTracker.ViewModels.Base"
+             xmlns:viewModelBase="clr-namespace:BearTracker.ViewModels.Base" xmlns:triggers="clr-namespace:BearTracker.Triggers"
              mc:Ignorable="d"
              x:Class="BearTracker.Views.ProjectListView"
              viewModelBase:ViewModelLocator.AutoWireViewModel="true"
              NavigationPage.HasNavigationBar="False">
 
-    <StackLayout Padding="64"
-                 Spacing="8">
-        <Label>Project Page</Label>
-        <Label Text="{Binding RandomNumber}"/>
-        <Button Text="New Number"
-                Command="{Binding ResetRandomNumberCommand}"/>
-        <Button Text="Next" 
-                Command="{Binding CreateNewProjectCommand}"/>
-    </StackLayout>
+    <Grid BackgroundColor="{StaticResource BackgroundLight}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="56"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="56"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Title -->
+        <Frame Grid.Row="0"
+               Grid.Column="0"
+               BackgroundColor="{StaticResource HeaderLight}">
+
+            <Image Source="project_icon.png"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Frame>
+        
+        <Frame Grid.Row="0" 
+               Grid.Column="1"
+               BackgroundColor="{StaticResource HeaderLight}">
+ 
+            <Label Grid.Column="1"
+                   TextColor="{StaticResource TextLight}"
+                   FontSize="Title"
+                   VerticalTextAlignment="Center"
+                   VerticalOptions="Center">
+                Running Projects
+            </Label>
+            
+        </Frame>
+        
+        <Frame Grid.Row="1"
+               Grid.ColumnSpan="2"
+               BackgroundColor="{StaticResource HeaderDark}"/>
+        
+        <Frame Grid.Row="2"
+               Grid.ColumnSpan="3"
+               BackgroundColor="{StaticResource BackgroundDark}"/>
+        
+        <!-- Settings -->
+        <Button Grid.Row="0"
+                Grid.Column="2" 
+                BackgroundColor="{StaticResource HighlightLight}"
+                ImageSource="settings_icon.png"/>
+
+        <Frame Grid.Row="1"
+               Grid.Column="2"
+               BackgroundColor="{StaticResource HighlightDark}"/>
+        
+        <!-- Header -->
+        <Grid Grid.Row="3"
+              Grid.ColumnSpan="3"
+              Margin="16"
+              RowSpacing="16"
+              ColumnSpacing="16">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Row="0"
+                   Grid.Column="0"
+                   BackgroundColor="{StaticResource PositiveDark}"
+                   Padding="0, 0, 0, 8">
+
+                <Button BackgroundColor="{StaticResource PositiveLight}"
+                        ImageSource="create_icon.png"/>
+            </Frame>
+
+            <Grid Grid.Row="0" 
+                  Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="56"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0"
+                       BackgroundColor="{StaticResource ForegroundLight}"
+                       Padding="8, 0">
+
+                    <Entry x:Name="search_bar"
+                           Text="{Binding SearchText, Mode=TwoWay}"/>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       BackgroundColor="{StaticResource PositiveDark}"
+                       Padding="0, 0, 0, 8">
+
+                    <Button BackgroundColor="{StaticResource PositiveLight}"
+                            ImageSource="search_icon.png"/>
+                </Frame>
+
+                <Frame Grid.Column="2"
+                       BackgroundColor="{StaticResource NegativeDark}"
+                       Padding="0, 0, 0, 8">
+
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+
+                            <Style.Triggers>
+
+                                <DataTrigger TargetType="Frame"
+                                             Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
+                                             Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:ExpandCollapseTrigger Action="Collapse"
+                                                                        MaxWidth="56"/>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="Frame" 
+                                             Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
+                                             Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:ExpandCollapseTrigger Action="Expand"
+                                                                        MaxWidth="56"/>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+
+                    <Button BackgroundColor="{StaticResource NegativeLight}"
+                            ImageSource="clear_icon.png"
+                            Command="{Binding ClearSearchTextCommand}"/>
+                </Frame>
+            </Grid>
+
+            <Frame Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   BackgroundColor="CornflowerBlue"/>
+        </Grid>
+    </Grid>
 </ContentPage>
