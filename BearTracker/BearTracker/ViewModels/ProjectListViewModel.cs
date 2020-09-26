@@ -10,7 +10,9 @@ namespace BearTracker.ViewModels
 {
     public class ProjectListViewModel : ViewModelBase
     {
-        private readonly INavigationService navService = DependencyService.Get<INavigationService>();
+        private const string TITLE_ALL = "All Projects";
+        private const string TITLE_OPEN = "Open Projects";
+        private const string TITLE_CLOSED = "Closed Projects";
 
         private string searchText;
         public string SearchText
@@ -24,6 +26,11 @@ namespace BearTracker.ViewModels
         }
 
         public ICommand ClearSearchTextCommand => new Command(ClearSearchText);
+
+        public ProjectListViewModel()
+        {
+            Title = TITLE_ALL;
+        }
 
         private void ClearSearchText()
         {

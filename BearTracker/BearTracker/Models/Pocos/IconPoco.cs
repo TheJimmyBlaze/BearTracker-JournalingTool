@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BearTracker.Models
+namespace BearTracker.Models.Pocos
 {
-    internal class IdentityIcon
+    public class IconPoco
     {
-        public Guid ID { get; set; }
+        public string IconNaturalID { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
     }

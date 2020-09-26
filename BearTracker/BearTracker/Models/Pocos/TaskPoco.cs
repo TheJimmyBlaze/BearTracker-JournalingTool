@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BearTracker.Models
+namespace BearTracker.Models.Pocos
 {
-    internal class Task
+    public class TaskPoco
     {
-        public Guid ID { get; set; }
+        public Guid TaskID { get; set; }
+        public Guid ProjectID { get; set; }
+
         public string Name { get; set; }
         public string Notes { get; set; }
 
+        public string PriorityNaturalID { get; set; }
         public bool Completed { get; set; }
-        public Priority Priority { get; set; }
-
-        public List<TimeEntry> TimeEntries { get; set; }
     }
 }

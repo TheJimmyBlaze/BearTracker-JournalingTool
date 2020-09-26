@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BearTracker.Models
+namespace BearTracker.Models.Pocos
 {
-    internal class TimeEntry
+    public class TimeEntryPoco
     {
         public Guid ID { get; set; }
 
