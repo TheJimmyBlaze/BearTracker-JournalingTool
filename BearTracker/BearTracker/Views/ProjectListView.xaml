@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:BearTracker.ViewModels"
              xmlns:viewModelBase="clr-namespace:BearTracker.ViewModels.Base" xmlns:triggers="clr-namespace:BearTracker.Triggers"
              mc:Ignorable="d"
              x:Class="BearTracker.Views.ProjectListView"
@@ -12,28 +13,55 @@
     <Grid BackgroundColor="{StaticResource BackgroundLight}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>    <!-- Title -->
-            <RowDefinition Height="8"/>     <!-- Title Flair --> 
-            <RowDefinition Height="8"/>     <!-- Title Shadow -->
-            <RowDefinition Height="*"/>     <!-- Content -->
+            <RowDefinition Height="48"/>        <!-- Title -->
+            <RowDefinition Height="8"/>         <!-- Title Flair -->
+            <RowDefinition Height="*"/>         <!-- Content -->
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="56"/>  <!-- Image -->
-            <ColumnDefinition Width="*"/>   <!-- Title Text -->
-            <ColumnDefinition Width="56"/>  <!-- Settings Button -->
+            <ColumnDefinition Width="56"/>      <!-- Filter Button -->
+            <ColumnDefinition Width="*"/>       <!-- Title Text -->
+            <ColumnDefinition Width="56"/>      <!-- Settings Button -->
         </Grid.ColumnDefinitions>
-        
-        <!-- Title -->
-        <Frame Grid.Row="0"
-               Grid.Column="0"
-               BackgroundColor="{StaticResource HeaderLight}">
 
-            <Image Source="project_icon.png"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
+        <!-- Filter -->
+        <Button Grid.Row="0"
+                Grid.Column="0"
+                ImageSource="filter_sort_icon"
+                Command="{Binding ToggleDisplayFilters}"
+                WidthRequest="48">
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding DisplayFilters}"
+                                     Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource NegativeLight}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Frame Grid.Row="1"
+               Grid.Column="0">
+
+            <Frame.Style>
+                <Style TargetType="Frame">
+                    <Setter Property="BackgroundColor" Value="{StaticResource DisabledDark}"/>
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Frame"
+                                     Binding="{Binding DisplayFilters}"
+                                     Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource NegativeDark}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frame.Style>
         </Frame>
-        
+
+        <!-- Title -->
         <Frame Grid.Row="0" 
                Grid.Column="1"
                BackgroundColor="{StaticResource HeaderLight}">
@@ -43,137 +71,293 @@
                    FontSize="Title"
                    VerticalTextAlignment="Center"
                    VerticalOptions="Center"
+                   Margin="16, 0"
                    Text="{Binding Title}"/>
         </Frame>
-        
         <Frame Grid.Row="1"
-               Grid.ColumnSpan="2"
+               Grid.Column="1"
                BackgroundColor="{StaticResource HeaderDark}"/>
-        
-        <Frame Grid.Row="2"
-               Grid.ColumnSpan="3"
-               BackgroundColor="{StaticResource BackgroundDark}"/>
-        
+
         <!-- Settings -->
         <Button Grid.Row="0"
                 Grid.Column="2" 
                 BackgroundColor="{StaticResource HighlightLight}"
                 ImageSource="settings_icon.png"/>
-
         <Frame Grid.Row="1"
                Grid.Column="2"
                BackgroundColor="{StaticResource HighlightDark}"/>
-        
-        <!-- Body -->
-        <Grid Grid.Row="3"
-              Grid.ColumnSpan="3"
-              Margin="16"
-              RowSpacing="16"
-              ColumnSpacing="16">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="56"/>    <!-- New Project -->
-                <RowDefinition Height="*"/>     <!-- Search -->
-            </Grid.RowDefinitions>
+        <!-- Filters and Body -->
+        <Grid Grid.Row="2"
+              Grid.ColumnSpan="3">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48"/>  <!-- Tool Bar -->
-                <ColumnDefinition Width="*"/>   <!-- Projects -->
+                <ColumnDefinition Width="auto"/>        <!-- Filters -->
+                <ColumnDefinition Width="*"/>           <!-- Body -->
             </Grid.ColumnDefinitions>
+            
+            <!-- Filters -->
+            <ScrollView Grid.Column="0">
+                <Grid Padding="0, 16"
+                      BackgroundColor="{StaticResource BackgroundDark}">
 
-            <!-- New Project -->
-            <Frame Grid.Row="0"
-                   Grid.Column="0"
-                   BackgroundColor="{StaticResource PositiveDark}"
-                   Padding="0, 0, 0, 8">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
 
-                <Button BackgroundColor="{StaticResource PositiveLight}"
-                        ImageSource="create_icon.png"/>
-            </Frame>
+                                <DataTrigger TargetType="Grid"
+                                         Binding="{Binding DisplayFilters}"
+                                         Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:ExpandCollapseTrigger Action="Collapse" 
+                                                                    Orientation="Horizontal"
+                                                                    MaxSize="56"/>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
 
-            <!-- Search Bar and Filter -->
-            <Grid Grid.Row="0" 
-                  Grid.Column="1">
+                                <DataTrigger TargetType="Grid"
+                                         Binding="{Binding DisplayFilters}"
+                                         Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <triggers:ExpandCollapseTrigger Action="Expand"
+                                                                    Orientation="Horizontal"
+                                                                    MaxSize="56"/>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>       <!-- Search Bar And Filter-->
-                    <ColumnDefinition Width="56"/>      <!-- Filter Toggle -->
-                </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="8"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Search Bar -->
-                <Grid Grid.Row="0">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>       <!-- Search Entry -->
-                        <ColumnDefinition Width="auto"/>    <!-- Clear Button -->
-                    </Grid.ColumnDefinitions>
+                    <Button Grid.Row="0" 
+                            ImageSource="all_projects_icon"
+                            Command="{Binding ToggleFilter}"
+                            CommandParameter="{x:Static local:ProjectListViewModel+Filter.All}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ProjectFilter}"
+                                                 Value="All">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightLight}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     
-                    <!-- Search Entry -->
-                    <Frame Grid.Column="0"
-                           BackgroundColor="{StaticResource ForegroundLight}"
-                           Padding="8, 0">
+                    <Button Grid.Row="1" 
+                            ImageSource="open_project_icon"
+                            Command="{Binding ToggleFilter}"
+                            CommandParameter="{x:Static local:ProjectListViewModel+Filter.Open}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ProjectFilter}"
+                                                 Value="Open">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightLight}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-                        <Entry x:Name="search_bar"
-                               Text="{Binding SearchText, Mode=TwoWay}"/>
-                    </Frame>
-                    
-                    <!-- Clear Button -->
-                    <Frame Grid.Column="1"
-                           BackgroundColor="{StaticResource NegativeDark}"
-                           Padding="0, 0, 0, 8">
+                    <Button Grid.Row="2" 
+                            ImageSource="closed_project_icon"
+                            Command="{Binding ToggleFilter}"
+                            CommandParameter="{x:Static local:ProjectListViewModel+Filter.Closed}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ProjectFilter}"
+                                                 Value="Closed">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightLight}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
+                    <Frame Grid.Row="3">
                         <Frame.Style>
                             <Style TargetType="Frame">
-
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledDark}"/>
                                 <Style.Triggers>
-
                                     <DataTrigger TargetType="Frame"
-                                                 Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
-                                                 Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <triggers:ExpandCollapseTrigger Action="Collapse"
-                                                                            Orientation="Horizontal"
-                                                                            MaxSize="56"/>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Frame" 
-                                                 Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
-                                                 Value="False">
-                                        <DataTrigger.EnterActions>
-                                            <triggers:ExpandCollapseTrigger Action="Expand"
-                                                                            Orientation="Horizontal"
-                                                                            MaxSize="56"/>
-                                        </DataTrigger.EnterActions>
+                                                 Binding="{Binding ProjectFilter}"
+                                                 Value="Closed">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightDark}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Frame.Style>
+                    </Frame>
 
-                        <Button BackgroundColor="{StaticResource NegativeLight}"
-                                ImageSource="clear_icon.png"
-                                Command="{Binding ClearSearchTextCommand}"/>
+                    <Button Grid.Row="5"
+                            ImageSource="sort_ascending_icon"
+                            Command="{Binding ToggleSort}"
+                            CommandParameter="{x:Static local:ProjectListViewModel+Sort.Ascending}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ProjectSort}"
+                                                 Value="Ascending">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightLight}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Grid.Row="6"
+                            ImageSource="sort_descending_icon"
+                            Command="{Binding ToggleSort}"
+                            CommandParameter="{x:Static local:ProjectListViewModel+Sort.Descending}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledLight}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ProjectSort}"
+                                                 Value="Descending">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightLight}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Frame Grid.Row="7">
+                        <Frame.Style>
+                            <Style TargetType="Frame">
+                                <Setter Property="BackgroundColor" Value="{StaticResource DisabledDark}"/>
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Frame"
+                                                 Binding="{Binding ProjectSort}"
+                                                 Value="Descending">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource HighlightDark}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Frame.Style>
                     </Frame>
                 </Grid>
-                
-                <!-- Filter Bar -->
-                <Grid Grid.Row="0">
-                    
-                </Grid>
-                
-                <!-- Filter Button -->
-                <Frame Grid.Column="1"
+            </ScrollView>
+
+            <!-- Body -->
+            <Grid Grid.Column="1"
+                  Margin="16"
+                  RowSpacing="16"
+                  ColumnSpacing="16">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="56"/>        <!-- Tool Bar -->
+                    <RowDefinition Height="*"/>         <!-- Projects -->
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="56"/>      <!-- New Project -->
+                    <ColumnDefinition Width="*"/>       <!-- Search -->
+                </Grid.ColumnDefinitions>
+
+                <!-- New Project -->
+                <Frame Grid.Row="0"
+                       Grid.Column="0"
                        BackgroundColor="{StaticResource PositiveDark}"
                        Padding="0, 0, 0, 8">
 
                     <Button BackgroundColor="{StaticResource PositiveLight}"
-                            ImageSource="search_icon.png"/>
+                            ImageSource="create_icon.png"/>
                 </Frame>
-            </Grid>
 
-            <Frame Grid.Row="1"
-                   Grid.ColumnSpan="2"
-                   BackgroundColor="CornflowerBlue"/>
+                <!-- Search Bar -->
+                <Grid Grid.Row="0" 
+                      Grid.Column="1"
+                      HeightRequest="56">
+
+                    <!-- Search Bar -->
+                    <Grid Grid.Row="0"
+                          Grid.Column="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <!-- Search Entry -->
+                            <ColumnDefinition Width="auto"/>
+                            <!-- Clear Button -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Search Entry -->
+                        <Frame Grid.Column="0"
+                               BackgroundColor="{StaticResource ForegroundLight}"
+                               Padding="8, 0">
+
+                            <Entry x:Name="search_bar"
+                                   Text="{Binding SearchText, Mode=TwoWay}"
+                                   Placeholder="Search"/>
+                        </Frame>
+
+                        <!-- Clear Button -->
+                        <Frame Grid.Column="1"
+                               BackgroundColor="{StaticResource NegativeDark}"
+                               Padding="0, 0, 0, 8">
+
+                            <Frame.Style>
+                                <Style TargetType="Frame">
+
+                                    <Style.Triggers>
+
+                                        <DataTrigger TargetType="Frame"
+                                                     Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
+                                                     Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <triggers:ExpandCollapseTrigger Action="Collapse"
+                                                                                Orientation="Horizontal"
+                                                                                MaxSize="56"/>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+
+                                        <DataTrigger TargetType="Frame" 
+                                                     Binding="{Binding Text, Source={x:Reference search_bar}, Converter={StaticResource TrueWhenEmpty}, Mode=OneWay}"
+                                                     Value="False">
+                                            <DataTrigger.EnterActions>
+                                                <triggers:ExpandCollapseTrigger Action="Expand"
+                                                                                Orientation="Horizontal"
+                                                                                MaxSize="56"/>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Frame.Style>
+
+                            <Button BackgroundColor="{StaticResource NegativeLight}"
+                                    ImageSource="clear_icon.png"
+                                    Command="{Binding ClearSearchTextCommand}"/>
+                        </Frame>
+                    </Grid>
+                </Grid>
+
+                <!-- Projects -->
+                <Frame Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       BackgroundColor="CornflowerBlue"/>
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

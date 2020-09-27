@@ -14,6 +14,43 @@ namespace BearTracker.ViewModels
         private const string TITLE_OPEN = "Open Projects";
         private const string TITLE_CLOSED = "Closed Projects";
 
+        public enum Filter
+        {
+            Open,
+            Closed,
+            All
+        };
+
+        public enum Sort
+        { 
+            Descending,
+            Ascending
+        };
+
+        private Filter projectFilter;
+        public Filter ProjectFilter
+        {
+            get { return projectFilter; }
+            set
+            {
+                projectFilter = value;
+                OnPropertyChanged(nameof(ProjectFilter));
+            }
+        }
+        public ICommand ToggleFilter => new Command<Filter>(x => SetProjectFilter(x));
+
+        private Sort projectSort;
+        public Sort ProjectSort
+        {
+            get { return projectSort; }
+            set
+            {
+                projectSort = value;
+                OnPropertyChanged(nameof(ProjectSort));
+            }
+        }
+        public ICommand ToggleSort => new Command<Sort>(x => ProjectSort = x);
+
         private string searchText;
         public string SearchText
         {
@@ -24,17 +61,41 @@ namespace BearTracker.ViewModels
                 OnPropertyChanged(nameof(SearchText));
             }
         }
+        public ICommand ClearSearchTextCommand => new Command(x => SearchText = string.Empty);
 
-        public ICommand ClearSearchTextCommand => new Command(ClearSearchText);
+        private bool displayFilters;
+        public bool DisplayFilters
+        {
+            get { return displayFilters; }
+            set
+            {
+                displayFilters = value;
+                OnPropertyChanged(nameof(DisplayFilters));
+            }
+        }
+        public ICommand ToggleDisplayFilters => new Command(x => DisplayFilters = !DisplayFilters);
 
         public ProjectListViewModel()
         {
-            Title = TITLE_ALL;
+            Title = TITLE_OPEN;
         }
 
-        private void ClearSearchText()
+        private void SetProjectFilter(Filter filter)
         {
-            SearchText = string.Empty;
+            ProjectFilter = filter;
+
+            switch (ProjectFilter)
+            {
+                case Filter.All:
+                    Title = TITLE_ALL;
+                    break;
+                case Filter.Open:
+                    Title = TITLE_OPEN;
+                    break;
+                case Filter.Closed:
+                    Title = TITLE_CLOSED;
+                    break;
+            }
         }
     }
 }

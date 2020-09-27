@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace BearTracker.Triggers
 {
-    public class ExpandCollapseTrigger : TriggerAction<Frame>
+    public class ExpandCollapseTrigger : TriggerAction<VisualElement>
     {
         public enum AnimationAction
         {
@@ -26,7 +26,7 @@ namespace BearTracker.Triggers
         public int MaxSize { get; set; }
         public int MinSize { get; set; }
 
-        protected override void Invoke(Frame sender)
+        protected override void Invoke(VisualElement sender)
         {
             if (MaxSize == 0 && MinSize == 0)
                 throw new ArgumentException("MaxWidth and MinWidth shouldn't both be 0, it's pointless to do this.");
@@ -37,19 +37,19 @@ namespace BearTracker.Triggers
                 PerformCollapse(sender);
         }
 
-        private void PerformExpand(Frame frame)
+        private void PerformExpand(VisualElement element)
         {
-            Animation scale = new Animation(size => ResizeCallback(frame, size), MinSize, MaxSize, Easing.SpringOut);
-            scale.Commit(frame, "Expand", 16, 500);
+            Animation scale = new Animation(size => ResizeCallback(element, size), MinSize, MaxSize, Easing.SpringOut);
+            scale.Commit(element, "Expand", 16, 500);
         }
 
-        private void PerformCollapse(Frame frame)
+        private void PerformCollapse(VisualElement element)
         {
-            Animation scale = new Animation(size => ResizeCallback(frame, size), MaxSize, MinSize, Easing.SpringIn);
-            scale.Commit(frame, "Collapse", 16, 500);
+            Animation scale = new Animation(size => ResizeCallback(element, size), MaxSize, MinSize, Easing.SpringIn);
+            scale.Commit(element, "Collapse", 16, 500);
         }
 
-        private void ResizeCallback(Frame frame, double size)
+        private void ResizeCallback(VisualElement frame, double size)
         {
             switch (Orientation)
             {
